@@ -1,18 +1,12 @@
-//engineer
-//intern
-//mananger
-
-//inquirer
-//fs
-//path - tells where to write those files
-
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const Manager = require('./lib/manager');
+const generateHTML = require('./generateHTML');
 
 const inquirer = require('inquirer');
 const path = require('path'); 
 const fs = require('fs');
+
 
 let responses = [];
 
@@ -98,7 +92,9 @@ function writeToFile(fileName, data) {
 
 // function to initialize program
 function init() {
-  inquirer.prompt(questions).then((inquirerResponses)=>{
-      writeToFile("index.html", generateMarkdown({...inquirerResponses}))
+  inquirer.prompt(engineerQuestions).then((inquirerResponses)=>{
+      writeToFile("index.html", generateHTML({...inquirerResponses}))
   })
 }
+
+init();
