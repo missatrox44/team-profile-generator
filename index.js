@@ -1,7 +1,7 @@
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const Manager = require('./lib/manager');
-const generateHTML = require('./generateHTML');
+const generateHTML = require('./lib/generateHTML');
 
 const inquirer = require('inquirer');
 const path = require('path'); 
@@ -85,16 +85,77 @@ const managerQuestions = [
 
 ]
 
-//use fs to make index.html
-function writeToFile(fileName, data) {
-  return fs.writeFileSync(path.join(process.cwd(), fileName), data);
-}
 
-// function to initialize program
-function init() {
-  inquirer.prompt(engineerQuestions).then((inquirerResponses)=>{
-      writeToFile("index.html", generateHTML({...inquirerResponses}))
+//next Person question array
+const whoNext = [
+  {
+    type: 'list',
+    name: 'choice',
+    message: 'Who do you want to add next?',
+    choices: ['Engineer', 'Intern', 'Finished'],
+  },
+  
+]
+
+
+const init = () => {
+  inquirer.prompt(managerQuestions)
+  .then(answers => {
+    const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
+    console.log(answers);
+    //push to team array (manager parameter)
+    //call function to create new team member
+    nextPerson();
   })
 }
+
+const nextPerson = () => {
+  inquirer.prompt(whoNext)
+  .then(answers => {
+    //choice = engineer, run engineer function
+    makeEngineer();
+    //choice = intern, run intern function
+    makeIntern();
+    //choice = finish, create HTML 
+    
+  })
+}
+
+const makeEngineer = () => {
+  inquirer.prompt(engineerQuestions)
+  .then(answers => {
+    const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+    console.log(answers);
+    //push to team array (engineer parameter)
+    //call function to create new team member
+    nextPerson();
+  })
+}
+
+const makeIntern= () => {
+  inquirer.prompt(internQuestions)
+  .then(answers => {
+    const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+    console.log(answers);
+    //push to team array (engineer parameter)
+    //call function to create new team member
+    nextPerson();
+  })
+}
+
+// //use fs to make index.html
+// function writeToFile(fileName, data) {
+//   return fs.writeFileSync(path.join(process.cwd(), fileName), data);
+// }
+
+// // function to initialize program
+// function init() {
+//   inquirer.prompt(engineerQuestions).then((inquirerResponses)=>{
+//       writeToFile("index.html", generateHTML({...inquirerResponses}))
+//   })
+// }
+
+
+
 
 init();
