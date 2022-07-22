@@ -11,5 +11,16 @@ describe('test', () => {
     const role = manager.getRole();
     //assert
     expect(role).toBe('Manager');
-  })
-} )
+  });
+} );
+
+describe('officeNumTest', () => {
+  it('should have a office number', () => {
+    //arrange
+    const manager = new Manager('Jack', '4', 'this@me.com', 'this.officeNumber');
+    //act
+    const officeNum = manager.getofficeNumber();
+    //assert
+    expect(officeNum).toBe('this.officeNumber');
+  });
+});

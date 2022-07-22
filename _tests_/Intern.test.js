@@ -11,5 +11,16 @@ describe('test', () => {
     const role = intern.getRole();
     //assert
     expect(role).toBe('Intern');
-  })
-} )
+  });
+} );
+
+describe('schoolTest', () => {
+  it('should have a string of school name', () => {
+    //arrange
+    const intern = new Intern('Jack', '4', 'this@me.com', 'this.school');
+    //act
+    const school = intern.getSchool();
+    //assert
+    expect(school).toBe('this.school');
+  });
+});
