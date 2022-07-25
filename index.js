@@ -4,11 +4,11 @@ const Manager = require('./lib/manager');
 const generateHTML = require('./lib/generateHTML');
 
 const inquirer = require('inquirer');
-const path = require('path'); 
+// const path = require('path'); 
 const fs = require('fs');
 
 
-let responses = [];
+let teamInfo = [];
 
 //engineer question array
 const engineerQuestions = [
@@ -97,19 +97,18 @@ const whoNext = [
   
 ]
 
-
+//function to start program -> creates manager profile
 const init = () => {
   inquirer.prompt(managerQuestions)
   .then(answers => {
     const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
-    responses.push(manager);
-    console.log(responses);
-    //push to team array (manager parameter)
-    //call function to create new team member
+    teamInfo.push(manager);
+    console.log(teamInfo);
     nextPerson();
   })
 }
 
+//function to give user choice of which profile to create next
 const nextPerson = () => {
   inquirer.prompt(whoNext)
   .then(answers => {
@@ -119,46 +118,38 @@ const nextPerson = () => {
     } else if (answers.choice === 'Intern') {
       makeIntern();
     } else {
-      generateHTML(responses);
+      makeHTML(teamInfo);
     }
   })
 }
 
+//function to prompt engineer questions
 const makeEngineer = () => {
   inquirer.prompt(engineerQuestions)
   .then(answers => {
     const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-    responses.push(engineer);
-    console.log(responses);
-    //push to team array (engineer parameter)
-    //call function to create new team member
+    teamInfo.push(engineer);
+    console.log(teamInfo);
     nextPerson();
   })
 }
 
+//function to prompt intern questions
 const makeIntern= () => {
   inquirer.prompt(internQuestions)
   .then(answers => {
     const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-    responses.push(intern);
-    console.log(responses);
-    //push to team array (engineer parameter)
-    //call function to create new team member
+    teamInfo.push(intern);
+    console.log(teamInfo);
     nextPerson();
   })
 }
 
-// //use fs to make index.html
-// function writeToFile(fileName, data) {
-//   return fs.writeFileSync(path.join(process.cwd(), fileName), data);
-// }
-
-// // function to initialize program
-// function init() {
-//   inquirer.prompt(engineerQuestions).then((inquirerResponses)=>{
-//       writeToFile("index.html", generateHTML({...inquirerResponses}))
-//   })
-// }
+//function to write generated HTML file with team info
+const makeHTML = () => {
+  fs.writeFileSync('index.html', generateHTML(teamInfo)), (err) =>
+  err ? console.log(err) : console.log('Successfully generated team profiles')
+}
 
 
 init();

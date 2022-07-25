@@ -6,7 +6,7 @@ const Intern = require('../lib/intern');
 describe('test', () => {
   it('should have intern role', () => {
     //arrange
-    const intern = new Intern('Jack', '4', 'this@me.com', 'userName');
+    const intern = new Intern('Jack', '4', 'this@me.com', 'school');
     //act
     const role = intern.getRole();
     //assert

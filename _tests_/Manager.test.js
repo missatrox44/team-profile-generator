@@ -6,7 +6,7 @@ const Manager = require('../lib/manager');
 describe('test', () => {
   it('should have manager role', () => {
     //arrange
-    const manager = new Manager('Jack', '4', 'this@me.com', 'userName');
+    const manager = new Manager('Jack', '4', 'this@me.com', 'officeNum');
     //act
     const role = manager.getRole();
     //assert
